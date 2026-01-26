@@ -85,7 +85,7 @@ export class Stack extends cfn.Stack {
 
     Object.entries(LambdaHandler).forEach(([lambdaName, handlerName]) => {
       const func = new LlrtFunction(this, lambdaName, {
-        entry: `src/handlers/${handlerName}/handler.ts`,
+        entry: `../app/src/handlers/${handlerName}/handler.ts`,
         handler: 'handler',
         logGroup: errorsLogGroup,
         timeout: cfn.Duration.seconds(30),
