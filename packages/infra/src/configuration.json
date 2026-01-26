@@ -1,11 +1,11 @@
 ﻿{
-    "alertEmail": "",
-    "telegramToken": "",
-    "telegramSourceChannelId": "",
-    "telegramTargetGroupId": "",
-    "videoDownloadedTopicArn": "",
-    "sceneRecognisedTopicArn": "",
-    "updatePublishingDetailsFunctionName": "",
-    "retriesMax": "",
-    "retriesDelayMs": ""
+  "alertEmail": "",
+  "telegramToken": "",
+  "telegramSourceChannelId": "",
+  "telegramTargetGroupId": "",
+  "videoDownloadedTopicArn": "",
+  "sceneRecognisedTopicArn": "",
+  "updatePublishingDetailsFunctionName": "",
+  "retriesMax": "",
+  "retriesDelayMs": ""
 }

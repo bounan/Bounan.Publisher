@@ -1,6 +1,6 @@
-﻿import { HeaderMessageInfo } from './message-info';
+﻿import type { HeaderMessageInfo } from './message-info';
 
 export interface PublishingResult {
-    threadId: number;
-    headerMessageInfo: HeaderMessageInfo;
+  threadId: number;
+  headerMessageInfo: HeaderMessageInfo;
 }

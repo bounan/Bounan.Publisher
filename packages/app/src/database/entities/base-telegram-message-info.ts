@@ -1,4 +1,4 @@
 ﻿export interface BaseTelegramMessageInfo {
-    messageId: number;
-    hash: number;
+  messageId: number;
+  hash: number;
 }

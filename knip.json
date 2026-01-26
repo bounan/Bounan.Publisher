@@ -1,11 +1,11 @@
 {
-    "$schema": "https://unpkg.com/knip@5/schema.json",
-    "entry": [
-        "packages/infra/src/app.ts",
-        "packages/app/src/handlers/**/handler.ts"
-    ],
-    "ignore": [
-        "third-party/**",
-        "migrators/**"
-    ]
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "packages/infra/src/app.ts",
+    "packages/app/src/handlers/**/handler.ts"
+  ],
+  "ignore": [
+    "third-party/**",
+    "migrators/**"
+  ]
 }

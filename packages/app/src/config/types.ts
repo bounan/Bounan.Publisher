@@ -1,25 +1,25 @@
 interface AniManConfig {
-    updatePublishingDetailsFunctionName: string;
+  updatePublishingDetailsFunctionName: string;
 }
 
 interface TelegramConfig {
-    token: string;
-    sourceChannelId: string;
-    targetGroupId: string;
+  token: string;
+  sourceChannelId: string;
+  targetGroupId: string;
 }
 
 interface DatabaseConfig {
-    tableName: string;
+  tableName: string;
 }
 
 interface RetriesConfig {
-    max: number;
-    delayMs: number;
+  max: number;
+  delayMs: number;
 }
 
 export interface Config {
-    animan: AniManConfig;
-    telegram: TelegramConfig;
-    database: DatabaseConfig;
-    retries: RetriesConfig;
+  animan: AniManConfig;
+  telegram: TelegramConfig;
+  database: DatabaseConfig;
+  retries: RetriesConfig;
 }
