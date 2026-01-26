@@ -9,7 +9,6 @@ catalog:
   '@types/aws-lambda': 8.10.160
   '@types/node': 25.0.10
   aws-cdk-lib: 2.236.0
-  aws-lambda: 1.0.7
   cdk-lambda-llrt: 0.1.4
   constructs: 10.4.5
   cross-env: 10.1.0

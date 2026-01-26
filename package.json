@@ -40,7 +40,6 @@
     "@types/aws-lambda": "catalog:",
     "@types/node": "catalog:",
     "aws-cdk-lib": "catalog:",
-    "aws-lambda": "catalog:",
     "cdk-lambda-llrt": "catalog:",
     "constructs": "catalog:",
     "cross-env": "catalog:",
