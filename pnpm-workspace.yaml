@@ -17,9 +17,9 @@ catalog:
   eslint-plugin-simple-import-sort: 12.1.1
   jiti: 2.6.1
   knip: 5.82.1
-  npm-check-updates: 19.2.0
   typescript: 5.9.3
   typescript-eslint: 8.54.0
+  vitest: 4.0.18
 
 # Use hoisted node linker for compatibility with LlrtFunction construct. This construct bundles
 # dependencies using docker, which does not work with host's symlinks.

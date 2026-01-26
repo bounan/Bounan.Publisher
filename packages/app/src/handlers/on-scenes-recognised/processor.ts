@@ -1,7 +1,7 @@
 ﻿import {
     SceneRecognisedNotification,
     SceneRecognisedNotificationItem,
-} from '../../../third-party/common/ts/interfaces';
+} from '../../../../../third-party/common/ts/interfaces';
 import { getShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
 import { updateEpisodeMessages } from '../../api-clients/telegram/telegram-service';
 import { EpisodeMessageInfoEntity } from '../../database/entities/episode-message-info-entity';

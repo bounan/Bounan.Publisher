@@ -1,7 +1,7 @@
 ﻿import { client_setClientToken } from '@lightweight-clients/telegram-bot-api-lightweight-client';
 import { Context, SNSEvent } from 'aws-lambda';
 
-import { VideoDownloadedNotification } from '../../../third-party/common/ts/interfaces';
+import { VideoDownloadedNotification } from '../../../../../third-party/common/ts/interfaces';
 import { config, initConfig } from '../../config/config';
 import { processNewEpisode } from './processor';
 

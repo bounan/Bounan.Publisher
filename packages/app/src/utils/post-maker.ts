@@ -1,4 +1,4 @@
-﻿import { SceneRecognisedNotificationItem } from '../../third-party/common/ts/interfaces';
+﻿import { SceneRecognisedNotificationItem } from '../../../../third-party/common/ts/interfaces';
 import { ShikiAnimeInfo } from '../api-clients/shikimori/shikimori-client';
 import { secToTime } from './sec-to-time';
 

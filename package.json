@@ -3,7 +3,7 @@
     "version": "1.0",
     "description": "",
     "scripts": {
-        "run-local": "cross-env AWS_PROFILE=hra npx jiti src/local-runner.ts",
+        "run-local": "cross-env AWS_PROFILE=hra npx jiti packages/app/src/local-runner.ts",
         "typecheck": "tsc",
         "lint": "eslint .",
         "lint-fix": "eslint . --fix",
@@ -47,6 +47,7 @@
         "jiti": "catalog:",
         "knip": "catalog:",
         "typescript": "catalog:",
-        "typescript-eslint": "catalog:"
+        "typescript-eslint": "catalog:",
+        "vitest": "catalog:"
     }
 }

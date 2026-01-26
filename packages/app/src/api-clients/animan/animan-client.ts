@@ -1,6 +1,6 @@
 ﻿import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 
-import { PublisherResultRequest, PublisherResultRequestItem } from '../../../third-party/common/ts/interfaces';
+import { PublisherResultRequest, PublisherResultRequestItem } from '../../../../../third-party/common/ts/interfaces';
 import { config } from '../../config/config';
 import { AnimeKey } from '../../models/anime-key';
 

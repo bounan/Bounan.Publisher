@@ -7,7 +7,7 @@
     sendPhoto,
 } from '@lightweight-clients/telegram-bot-api-lightweight-client';
 
-import { VideoDownloadedNotification } from '../../../third-party/common/ts/interfaces';
+import { VideoDownloadedNotification } from '../../../../../third-party/common/ts/interfaces';
 import { config } from '../../config/config';
 import { PublishedAnimeEntity } from '../../database/entities/published-anime-entity';
 import { hashCode } from '../../utils/hash';

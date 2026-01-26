@@ -1,6 +1,6 @@
 ﻿import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 
-import { VideoDownloadedNotification } from '../../../third-party/common/ts/interfaces';
+import { VideoDownloadedNotification } from '../../../../../third-party/common/ts/interfaces';
 import { updatePublishingDetails } from '../../api-clients/animan/animan-client';
 import { getShikiAnimeInfo, ShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
 import { publishAnime, publishEpisode } from '../../api-clients/telegram/telegram-service';
