@@ -1,11 +1,18 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": [
-    "packages/infra/src/app.ts",
-    "packages/app/src/handlers/**/handler.ts"
-  ],
   "ignore": [
     "third-party/**",
-    "migrators/**"
-  ]
+    "scripts/**"
+  ],
+  "workspaces": {
+    "packages/app": {
+      "entry": "src/handlers/*/handler.ts",
+      "ignoreDependencies": [
+        "@aws-sdk/client-ssm"
+      ]
+    },
+    "packages/infra": {
+      "entry": "src/app.ts"
+    }
+  }
 }
