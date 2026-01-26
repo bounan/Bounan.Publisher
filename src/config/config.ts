@@ -1,4 +1,4 @@
-﻿import { fetchSsmValue } from '../common/ts/runtime/ssm-client';
+﻿import { fetchSsmValue } from '../../third-party/common/ts/runtime/ssm-client';
 
 interface AniManConfig {
     updatePublishingDetailsFunctionName: string;

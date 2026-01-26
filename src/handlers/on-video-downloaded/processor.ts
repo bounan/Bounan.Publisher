@@ -1,9 +1,9 @@
 ﻿import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 
+import { VideoDownloadedNotification } from '../../../third-party/common/ts/interfaces';
 import { updatePublishingDetails } from '../../api-clients/animan/animan-client';
 import { getShikiAnimeInfo, ShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
 import { publishAnime, publishEpisode } from '../../api-clients/telegram/telegram-service';
-import { VideoDownloadedNotification } from '../../common/ts/interfaces';
 import { config } from '../../config/config';
 import { PublishedAnimeEntity } from '../../database/entities/published-anime-entity';
 import { getOrRegisterAnimeAndLock, unlock, upsertEpisodes } from '../../database/repository';

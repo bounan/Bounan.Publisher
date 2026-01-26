@@ -1,5 +1,5 @@
-﻿import { ShikiAnimeInfo } from '../api-clients/shikimori/shikimori-client';
-import { SceneRecognisedNotificationItem } from '../common/ts/interfaces';
+﻿import { SceneRecognisedNotificationItem } from '../../third-party/common/ts/interfaces';
+import { ShikiAnimeInfo } from '../api-clients/shikimori/shikimori-client';
 import { secToTime } from './sec-to-time';
 
 const escapeLinks = (text: string): string => {

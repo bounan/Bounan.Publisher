@@ -1,7 +1,7 @@
 ﻿/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { SceneRecognisedNotification, VideoDownloadedNotification } from './common/ts/interfaces';
+import { SceneRecognisedNotification, VideoDownloadedNotification } from '../third-party/common/ts/interfaces';
 import { handler as scenesHandler } from './handlers/on-scenes-recognised/handler';
 import { handler as videoHandler } from './handlers/on-video-downloaded/handler';
 

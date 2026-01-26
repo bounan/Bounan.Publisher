@@ -1,6 +1,9 @@
-﻿import { getShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
+﻿import {
+    SceneRecognisedNotification,
+    SceneRecognisedNotificationItem,
+} from '../../../third-party/common/ts/interfaces';
+import { getShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
 import { updateEpisodeMessages } from '../../api-clients/telegram/telegram-service';
-import { SceneRecognisedNotification, SceneRecognisedNotificationItem } from '../../common/ts/interfaces';
 import { EpisodeMessageInfoEntity } from '../../database/entities/episode-message-info-entity';
 import { getOrRegisterAnimeAndLock, unlock, upsertEpisodes } from '../../database/repository';
 import { hashCode } from '../../utils/hash';
