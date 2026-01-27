@@ -1,6 +1,6 @@
 # Bounan Publisher
 
-Manager private telegram group.
+Manages private telegram group.
 
 ## Actions:
 
