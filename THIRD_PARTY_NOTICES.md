@@ -35,53 +35,49 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-lambda
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-ssm
 
-## @aws-sdk/client-sso undefined
-License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-sso
-
 ## @aws-sdk/core undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/core
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/core
 
 ## @aws-sdk/credential-provider-env undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-env
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-env
 
 ## @aws-sdk/credential-provider-http undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-http
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-http
 
 ## @aws-sdk/credential-provider-ini undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-ini
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-ini
 
 ## @aws-sdk/credential-provider-login undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-login
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-login
 
 ## @aws-sdk/credential-provider-node undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-node
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-node
 
 ## @aws-sdk/credential-provider-process undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-process
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-process
 
 ## @aws-sdk/credential-provider-sso undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-sso
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-sso
 
 ## @aws-sdk/credential-provider-web-identity undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-provider-web-identity
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-provider-web-identity
 
 ## @aws-sdk/dynamodb-codec undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/dynamodb-codec
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/dynamodb-codec
 
 ## @aws-sdk/endpoint-cache undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/endpoint-cache
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/endpoint-cache
 
 ## @aws-sdk/lib-dynamodb undefined
 License: Apache-2.0
@@ -89,23 +85,23 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/lib/lib-dynamodb
 
 ## @aws-sdk/middleware-endpoint-discovery undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/middleware-endpoint-discovery
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-endpoint-discovery
 
 ## @aws-sdk/middleware-host-header undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/middleware-host-header
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-host-header
 
 ## @aws-sdk/middleware-logger undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/middleware-logger
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-logger
 
 ## @aws-sdk/middleware-recursion-detection undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/middleware-recursion-detection
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-recursion-detection
 
 ## @aws-sdk/middleware-user-agent undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/middleware-user-agent
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-user-agent
 
 ## @aws-sdk/nested-clients undefined
 License: Apache-2.0
@@ -113,7 +109,7 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages/nested-clients
 
 ## @aws-sdk/region-config-resolver undefined
 License: Apache-2.0
-https://github.com/awslabs/smithy-typescript/tree/main/packages/region-config-resolver
+https://github.com/awslabs/smithy-typescript/tree/main/packages-internal/region-config-resolver
 
 ## @aws-sdk/token-providers undefined
 License: Apache-2.0
@@ -121,7 +117,7 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages/token-providers
 
 ## @aws-sdk/types undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/types
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/types
 
 ## @aws-sdk/util-dynamodb undefined
 License: Apache-2.0
@@ -133,19 +129,19 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages/util-endpoints
 
 ## @aws-sdk/util-locate-window undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/util-locate-window
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/util-locate-window
 
 ## @aws-sdk/util-user-agent-browser undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/util-user-agent-browser
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/util-user-agent-browser
 
 ## @aws-sdk/util-user-agent-node undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/util-user-agent-node
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/util-user-agent-node
 
 ## @aws-sdk/xml-builder undefined
 License: Apache-2.0
-https://github.com/aws/aws-sdk-js-v3/tree/main/packages/xml-builder
+https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/xml-builder
 
 ## @aws/lambda-invoke-store undefined
 License: Apache-2.0
@@ -345,7 +341,11 @@ https://github.com/lightweight-clients/telegram-bot-api-lightweight-client
 
 ## bowser undefined
 License: MIT
-https://github.com/lancedikson/bowser
+https://github.com/bowser-js/bowser
+
+## fast-xml-builder undefined
+License: MIT
+https://github.com/NaturalIntelligence/fast-xml-builder#readme
 
 ## fast-xml-parser undefined
 License: MIT
@@ -358,6 +358,10 @@ https://github.com/yomguithereal/mnemonist#readme
 ## obliterator undefined
 License: MIT
 https://github.com/yomguithereal/obliterator#readme
+
+## path-expression-matcher undefined
+License: MIT
+https://github.com/NaturalIntelligence/path-expression-matcher#readme
 
 ## strnum undefined
 License: MIT
