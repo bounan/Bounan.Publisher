@@ -1,5 +1,5 @@
 ﻿import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
 import { config } from '../config/config';
 import { AnimeLockedError } from '../errors/anime-locked-error';
@@ -99,3 +99,22 @@ export const upsertEpisodes = async (
 
   await docClient.send(command);
 }
+
+export const scanRecentlyPublished = async (since: Date): Promise<PublishedAnimeEntity[]> => {
+  const items: PublishedAnimeEntity[] = [];
+  let lastKey: Record<string, unknown> | undefined = undefined;
+
+  do {
+    const response = await docClient.send(new ScanCommand({
+      TableName: config.value.database.tableName,
+      FilterExpression: 'attribute_exists(threadId) AND updatedAt >= :since',
+      ExpressionAttributeValues: { ':since': since.toISOString() },
+      ExclusiveStartKey: lastKey,
+    }));
+
+    items.push(...(response.Items ?? []) as PublishedAnimeEntity[]);
+    lastKey = response.LastEvaluatedKey as Record<string, unknown> | undefined;
+  } while (lastKey);
+
+  return items;
+};

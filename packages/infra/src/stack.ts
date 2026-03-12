@@ -2,6 +2,9 @@
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as cloudwatchActions from 'aws-cdk-lib/aws-cloudwatch-actions';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as eventsTargets from 'aws-cdk-lib/aws-events-targets';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as logs from 'aws-cdk-lib/aws-logs';
@@ -26,7 +29,8 @@ export class Stack extends cfn.Stack {
 
     const table = this.createDatabase();
     const errorsLogGroup = this.createLogGroup();
-    const parameter = this.saveParameters(table, config);
+    const calendarStateParameter = this.createCalendarStateParameter();
+    const parameter = this.saveParameters(table, calendarStateParameter, config);
     const lambdas = this.createLambdas(table, errorsLogGroup, parameter);
     this.SetErrorsAlarm(errorsLogGroup, config);
 
@@ -34,7 +38,26 @@ export class Stack extends cfn.Stack {
     this.subscribeLambdaToTopic(LambdaHandler.OnScenesRecognised, lambdas, config.sceneRecognisedTopicArn);
     updatePublishingDetailsLambda.grantInvoke(lambdas[LambdaHandler.OnVideoDownloaded]);
 
+    const scheduleLambda = lambdas[LambdaHandler.OnScheduleDaily];
+    calendarStateParameter.grantRead(scheduleLambda);
+    scheduleLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: ['ssm:PutParameter'],
+      resources: [calendarStateParameter.parameterArn],
+    }));
+
+    const dailyRule = new events.Rule(this, 'DailyScheduleRule', {
+      schedule: events.Schedule.cron({ hour: '9', minute: '0' }),
+    });
+    dailyRule.addTarget(new eventsTargets.LambdaFunction(scheduleLambda));
+
     this.out('Config', config);
+  }
+
+  private createCalendarStateParameter(): ssm.StringParameter {
+    return new ssm.StringParameter(this, 'CalendarStateParameter', {
+      parameterName: '/bounan/publisher/calendar-state',
+      stringValue: '{}',
+    });
   }
 
   private createDatabase(): dynamodb.Table {
@@ -108,7 +131,11 @@ export class Stack extends cfn.Stack {
     lambdas[handler].addEventSource(new lambdaEventSources.SnsEventSource(topic));
   }
 
-  private saveParameters(table: dynamodb.Table, config: Config): ssm.StringParameter {
+  private saveParameters(
+    table: dynamodb.Table,
+    calendarStateParameter: ssm.StringParameter,
+    config: Config,
+  ): ssm.StringParameter {
     const value = {
       animan: {
         updatePublishingDetailsFunctionName: config.updatePublishingDetailsFunctionName,
@@ -120,6 +147,7 @@ export class Stack extends cfn.Stack {
       },
       database: {
         tableName: table.tableName,
+        calendarStateParameterName: calendarStateParameter.parameterName,
       },
       retries: {
         max: cfn.Token.asNumber(config.retriesMax),
@@ -142,4 +170,5 @@ export class Stack extends cfn.Stack {
 enum LambdaHandler {
   OnVideoDownloaded = 'on-video-downloaded',
   OnScenesRecognised = 'on-scenes-recognised',
+  OnScheduleDaily = 'on-schedule-daily',
 }

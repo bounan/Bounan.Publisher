@@ -10,6 +10,7 @@ interface TelegramConfig {
 
 interface DatabaseConfig {
   tableName: string;
+  calendarStateParameterName: string;
 }
 
 interface RetriesConfig {

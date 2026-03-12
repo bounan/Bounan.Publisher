@@ -1,10 +1,11 @@
-﻿import type { Maybe } from '@lightweight-clients/shikimori-graphql-api-lightweight-client';
+﻿import type { AnimeStatusEnum, Maybe } from '@lightweight-clients/shikimori-graphql-api-lightweight-client';
 import { animes } from '@lightweight-clients/shikimori-graphql-api-lightweight-client';
 
 export type ShikiAnimeInfo = {
   id: string;
   url: string;
 
+  status?: Maybe<AnimeStatusEnum>;
   episodes: Maybe<number>;
   episodesAired: Maybe<number>;
 
@@ -26,6 +27,7 @@ export const getShikiAnimeInfo = async (myAnimeListId: number): Promise<ShikiAni
   }, {
     id: 1,
     url: 1,
+    status: 1,
     episodes: 1,
     episodesAired: 1,
     name: 1,
@@ -38,4 +40,26 @@ export const getShikiAnimeInfo = async (myAnimeListId: number): Promise<ShikiAni
     airedOn: { year: 1 },
     poster: { originalUrl: 1 },
   }))[0];
+}
+
+export const getShikiAnimeInfos = async (myAnimeListIds: number[]): Promise<ShikiAnimeInfo[]> => {
+  return (await animes({
+    ids: myAnimeListIds.join(','),
+    limit: myAnimeListIds.length,
+  }, {
+    id: 1,
+    url: 1,
+    status: 1,
+    episodes: 1,
+    episodesAired: 1,
+    name: 1,
+    russian: 1,
+    english: 1,
+    licenseNameRu: 1,
+    franchise: 1,
+    synonyms: 1,
+    genres: { russian: 1 },
+    airedOn: { year: 1 },
+    poster: { originalUrl: 1 },
+  }));
 }
