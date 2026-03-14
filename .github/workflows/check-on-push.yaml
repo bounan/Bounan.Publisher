@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 
 on:
   workflow_dispatch:
@@ -32,10 +32,35 @@ jobs:
       - name: Perform prerelease checks
         run: pnpm run prerelease
 
-  diff:
-    name: CDK Diff Check
+  semver:
+    name: Bump Version
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    needs: code-quality
+    if: github.ref == 'refs/heads/master'
+
+    permissions:
+      contents: write
+
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: semver
+    if: github.ref == 'refs/heads/master'
 
     permissions:
       id-token: write
@@ -59,8 +84,8 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_PROD }}:role/github-actions-cdk-diff
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_PROD }}:role/github-actions-cdk-deploy
           aws-region: eu-north-1
 
-      - name: CDK diff (fails if differences)
-        run: pnpm run cdk:diff --all --no-color --fail
+      - name: CDK deploy
+        run: pnpm run cdk:deploy --all --no-color --require-approval never
