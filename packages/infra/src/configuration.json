@@ -6,6 +6,6 @@
   "videoDownloadedTopicArn": "",
   "sceneRecognisedTopicArn": "",
   "updatePublishingDetailsFunctionName": "",
-  "retriesMax": "",
-  "retriesDelayMs": ""
+  "retriesMax": "3",
+  "retriesDelayMs": "2000"
 }
