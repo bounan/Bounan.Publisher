@@ -5,12 +5,14 @@ import { getShikiAnimeInfos } from '../../api-clients/shikimori/shikimori-client
 import { config } from '../../config/config';
 import type { PublishedAnimeEntity } from '../../database/entities/published-anime-entity';
 import { scanRecentlyPublished } from '../../database/repository';
+import { createLogger } from '../../logger';
 import { hashCode } from '../../utils/hash';
 import { buildCalendarEntries, createCalendarText } from './calendar-maker';
 import type { CalendarState } from './calendar-state-repository';
 import { getCalendarState, saveCalendarState } from './calendar-state-repository';
 
 const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
+const logger = createLogger('app/handlers/on-schedule-daily/processor');
 
 const fetchOngoingAnimes = async (animes: PublishedAnimeEntity[]): Promise<{
   ongoingAnimes: PublishedAnimeEntity[];
@@ -54,11 +56,11 @@ const editCalendar = async (messageId: number, text: string): Promise<void> => {
 
 const updateOrPostCalendar = async (state: CalendarState | null, text: string, hash: number): Promise<void> => {
   if (state?.messageId) {
-    console.log('Editing existing calendar message', state.messageId);
+    logger.info('Editing existing calendar message', { messageId: state.messageId });
     await editCalendar(state.messageId, text);
     await saveCalendarState({ messageId: state.messageId, hash });
   } else {
-    console.log('Posting new calendar message');
+    logger.info('Posting new calendar message');
     const messageId = await postCalendar(text);
     await saveCalendarState({ messageId, hash });
   }
@@ -66,13 +68,13 @@ const updateOrPostCalendar = async (state: CalendarState | null, text: string, h
 
 export const updateCalendar = async (): Promise<void> => {
   const since = new Date(Date.now() - TWO_WEEKS_MS);
-  console.log('Scanning recently published animes since', since.toISOString());
+  logger.info('Scanning recently published animes', { since: since.toISOString() });
 
   const recentAnimes = await scanRecentlyPublished(since);
-  console.log(`Found ${recentAnimes.length} recently updated animes`);
+  logger.info('Recently updated animes loaded', { count: recentAnimes.length });
 
   const { ongoingAnimes, animeNames } = await fetchOngoingAnimes(recentAnimes);
-  console.log(`Found ${ongoingAnimes.length} ongoing animes`);
+  logger.info('Ongoing animes resolved', { count: ongoingAnimes.length });
 
   const entries = buildCalendarEntries(ongoingAnimes, animeNames);
   const text = createCalendarText(entries, config.value.telegram.targetGroupId);
@@ -80,12 +82,12 @@ export const updateCalendar = async (): Promise<void> => {
 
   const state = await getCalendarState();
   if (state?.hash === hash) {
-    console.log('Calendar unchanged, skipping update');
+    logger.info('Calendar unchanged, skipping update');
     return;
   }
 
   await updateOrPostCalendar(state, text, hash);
-  console.log('Calendar updated');
+  logger.info('Calendar updated', { entryCount: entries.length });
 };
 
 

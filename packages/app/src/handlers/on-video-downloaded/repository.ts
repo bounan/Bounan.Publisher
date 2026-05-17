@@ -3,7 +3,10 @@
 import { config } from '../../config/config';
 import type { HeaderMessageInfoEntity } from '../../database/entities/header-message-info-entity';
 import { docClient, getTableKey } from '../../database/repository';
+import { createLogger } from '../../logger';
 import type { AnimeKey } from '../../models/anime-key';
+
+const logger = createLogger('app/handlers/on-video-downloaded/repository');
 
 export const setHeader = async (
   anime: AnimeKey,
@@ -23,5 +26,5 @@ export const setHeader = async (
   });
 
   const result = await docClient.send(command);
-  console.log('Header and first episode set', result);
+  logger.info('Header and thread saved', { anime, threadId, result });
 }

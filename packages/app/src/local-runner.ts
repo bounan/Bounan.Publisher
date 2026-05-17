@@ -7,27 +7,30 @@ import type {
 } from '../../../third-party/common/ts/interfaces';
 import { handler as scenesHandler } from './handlers/on-scenes-recognised/handler';
 import { handler as videoHandler } from './handlers/on-video-downloaded/handler';
+import { createLogger } from './logger';
+
+const logger = createLogger('app/local-runner');
 
 const ep = async (message: VideoDownloadedNotification) => {
-  console.log('Processing message: ', message);
+  logger.info('Processing video-downloaded message', { message });
 
   await videoHandler(
     // @ts-ignore
     { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
     null as any);
 
-  console.log('Message processed');
+  logger.info('Video-downloaded message processed');
 }
 
 const sc = async (message: SceneRecognisedNotification) => {
-  console.log('Processing message: ', message);
+  logger.info('Processing scene-recognised message', { message });
 
   await scenesHandler(
     // @ts-ignore
     { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
     null as any);
 
-  console.log('Message processed');
+  logger.info('Scene-recognised message processed');
 }
 
 const main = async () => {

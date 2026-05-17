@@ -5,9 +5,11 @@ import type {
   PublisherResultRequestItem,
 } from '../../../../../third-party/common/ts/interfaces';
 import { config } from '../../config/config';
+import { createLogger } from '../../logger';
 import type { AnimeKey } from '../../models/anime-key';
 
 const lambdaClient = new LambdaClient({});
+const logger = createLogger('app/api-clients/animan-client');
 
 export const updatePublishingDetails = async (
   animeKey: AnimeKey,
@@ -15,7 +17,7 @@ export const updatePublishingDetails = async (
   messageIds: { episode: number; messageId: number }[],
 ): Promise<void> => {
   if (messageIds.length === 0) {
-    console.log('No items to update');
+    logger.info('No publishing details to update', { animeKey });
     return;
   }
 
@@ -33,11 +35,11 @@ export const updatePublishingDetails = async (
 
   const request: PublisherResultRequest = { items };
   const message = JSON.stringify(request);
-  console.log('Sending request: ', message);
+  logger.info('Sending update publishing details request', { animeKey, threadId, itemCount: items.length });
 
   const result = await lambdaClient.send(new InvokeCommand({
     FunctionName: config.value.animan.updatePublishingDetailsFunctionName,
     Payload: message,
   }));
-  console.log('Request sent: ', result);
+  logger.info('Update publishing details request sent', { animeKey, result });
 }

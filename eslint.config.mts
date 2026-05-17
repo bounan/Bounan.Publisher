@@ -21,6 +21,7 @@ export default [
 
     rules: {
       indent: ['error', 2, { SwitchCase: 1 }],
+      'no-console': 'error',
 
       quotes: ['error', 'single'],
     },
@@ -34,6 +35,12 @@ export default [
       '@typescript-eslint/no-import-type-side-effects': 'error',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+    },
+  },
+  {
+    files: ['scripts/**/*.{ts,mts}'],
+    rules: {
+      'no-console': 'off',
     },
   },
   {

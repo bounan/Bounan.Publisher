@@ -10,23 +10,26 @@
 import type { VideoDownloadedNotification } from '../../../../../third-party/common/ts/interfaces';
 import { config } from '../../config/config';
 import type { PublishedAnimeEntity } from '../../database/entities/published-anime-entity';
+import { createLogger } from '../../logger';
 import { hashCode } from '../../utils/hash';
 import { createTextForEpisodePost, createTextForHeaderPost, createTextForTopicName } from '../../utils/post-maker';
 import type { ShikiAnimeInfo } from '../shikimori/shikimori-client';
 import type { EpisodeMessageInfo } from './models/message-info';
 import type { PublishingResult } from './models/publishing-result';
 
+const logger = createLogger('app/api-clients/telegram-service');
+
 const reorderEpisodes = async (
   threadId: number,
   publishedEpisodes: PublishedAnimeEntity['episodes'],
   episode: number,
 ): Promise<EpisodeMessageInfo[]> => {
-  console.log('Reordering episodes for anime: ', publishedEpisodes);
+  logger.info('Reordering episodes', { threadId, episode, publishedEpisodes });
 
   const episodesToForward = Object.values(publishedEpisodes)
     .filter(x => x.episode > episode)
     .sort((a, b) => a.episode - b.episode);
-  console.log('Episodes to forward: ', episodesToForward);
+  logger.info('Episodes selected for forwarding', { threadId, episode, episodesToForward });
   if (episodesToForward.length === 0) {
     return [];
   }
@@ -39,13 +42,13 @@ const reorderEpisodes = async (
     message_thread_id: threadId,
     disable_notification: true,
   });
-  console.log('Forwarded messages: ', forwardedMessages);
+  logger.info('Episodes forwarded', { threadId, messagesToForward, forwardedMessages });
 
   await deleteMessages({
     chat_id: config.value.telegram.targetGroupId,
     message_ids: messagesToForward,
   });
-  console.log('Deleted messages');
+  logger.info('Original episode messages deleted', { threadId, messagesToForward });
 
   return episodesToForward.map((episode, index) => ({
     episode: episode.episode,
@@ -135,16 +138,16 @@ export const updateEpisodeMessages = async (
     episode: number;
   }[],
 ) => {
-  console.log('Updating info');
+  logger.info('Updating episode captions', { anime: publishedAnime });
 
   for (const captionToUpdate of captionsToUpdate) {
     if (captionsToUpdate.length > 20) {
       await new Promise(resolve => setTimeout(resolve, 1000 / 29));
     }
 
-    console.log('Updating caption: ', captionToUpdate);
+    logger.info('Updating episode caption', { captionToUpdate });
     const episode = publishedAnime.episodes[captionToUpdate.episode];
-    console.log('Episode: ', episode);
+    logger.info('Episode message loaded for caption update', { episode });
 
     const result = await editMessageCaption({
       chat_id: config.value.telegram.targetGroupId,
@@ -153,9 +156,9 @@ export const updateEpisodeMessages = async (
       parse_mode: 'HTML',
     });
     if (!result.ok) {
-      console.error('Failed to update caption', result);
+      logger.error('Failed to update caption', undefined, { result, captionToUpdate });
     }
   }
 
-  console.log('Info updated');
+  logger.info('Episode captions updated', { updatedCount: captionsToUpdate.length });
 }

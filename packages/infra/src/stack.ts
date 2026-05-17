@@ -6,6 +6,7 @@ import * as events from 'aws-cdk-lib/aws-events';
 import * as eventsTargets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { LoggingFormat } from 'aws-cdk-lib/aws-lambda';
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as sns from 'aws-cdk-lib/aws-sns';
@@ -111,6 +112,7 @@ export class Stack extends cfn.Stack {
         entry: `../app/src/handlers/${handlerName}/handler.ts`,
         handler: 'handler',
         logGroup: errorsLogGroup,
+        loggingFormat: LoggingFormat.JSON,
         timeout: cfn.Duration.seconds(30),
       });
 

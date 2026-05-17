@@ -2,17 +2,19 @@ import { client_setClientToken } from '@lightweight-clients/telegram-bot-api-lig
 import type { Context, ScheduledEvent } from 'aws-lambda';
 
 import { config, initConfig } from '../../config/config';
+import { createLogger } from '../../logger';
 import { updateCalendar } from './processor';
+
+const logger = createLogger('app/handlers/on-schedule-daily/handler');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const handler = async (_event: ScheduledEvent, _context: Context): Promise<void> => {
-  console.log('Processing scheduled event');
+  logger.info('Processing scheduled calendar event');
 
   await initConfig();
   client_setClientToken(config.value.telegram.token);
 
   await updateCalendar();
 
-  console.info('done');
+  logger.info('Scheduled calendar event processed');
 };
-

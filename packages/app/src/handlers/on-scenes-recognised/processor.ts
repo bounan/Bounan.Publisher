@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   SceneRecognisedNotification,
   SceneRecognisedNotificationItem,
 } from '../../../../../third-party/common/ts/interfaces';
@@ -6,21 +6,24 @@ import { getShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client'
 import { updateEpisodeMessages } from '../../api-clients/telegram/telegram-service';
 import type { EpisodeMessageInfoEntity } from '../../database/entities/episode-message-info-entity';
 import { getOrRegisterAnimeAndLock, unlock, upsertEpisodes } from '../../database/repository';
+import { createLogger } from '../../logger';
 import { hashCode } from '../../utils/hash';
 import { createTextForEpisodePost } from '../../utils/post-maker';
 
+const logger = createLogger('app/handlers/on-scenes-recognised/processor');
+
 const processAnime = async (notificationItems: SceneRecognisedNotificationItem[]): Promise<void> => {
   const publishedAnime = await getOrRegisterAnimeAndLock(notificationItems[0].videoKey);
-  console.log('Anime retrieved: ', publishedAnime);
+  logger.info('Anime retrieved for scene processing', { publishedAnime });
 
   try {
     if (!('threadId' in publishedAnime)) {
-      console.log('The topic was not found in the database, skipping');
+      logger.info('Skipping scene processing because topic is not published', { publishedAnime });
       return;
     }
 
     const animeInfo = await getShikiAnimeInfo(publishedAnime.myAnimeListId);
-    console.log('Anime info retrieved');
+    logger.info('Anime info retrieved for scene processing', { myAnimeListId: publishedAnime.myAnimeListId });
 
     const newCaptions = notificationItems.map(item => ({
       episode: item.videoKey.episode,
@@ -30,14 +33,14 @@ const processAnime = async (notificationItems: SceneRecognisedNotificationItem[]
     const captionsToUpdate = newCaptions
       .filter(x => !!publishedAnime.episodes[x.episode]
         && publishedAnime.episodes[x.episode].hash !== hashCode(x.caption));
-    console.log(`Found ${captionsToUpdate.length} captions to update`);
+    logger.info('Calculated captions to update', { count: captionsToUpdate.length, captionsToUpdate });
     if (!captionsToUpdate.length) {
-      console.log('No captions to update, skipping');
+      logger.info('No episode captions require updates');
       return;
     }
 
     await updateEpisodeMessages(publishedAnime, captionsToUpdate);
-    console.log('Captions updated');
+    logger.info('Episode captions updated');
 
     const updatedEpisodes: { [episode: number]: EpisodeMessageInfoEntity } = Object.fromEntries(captionsToUpdate
       .map(x => [x.episode, {
@@ -45,26 +48,26 @@ const processAnime = async (notificationItems: SceneRecognisedNotificationItem[]
         hash: hashCode(x.caption),
       }]));
     await upsertEpisodes(publishedAnime, publishedAnime.episodes, updatedEpisodes);
-    console.log('Episodes upserted');
+    logger.info('Updated episode hashes persisted', { updatedEpisodes });
   } finally {
     await unlock(publishedAnime);
-    console.log('Anime unlocked');
+    logger.info('Anime unlocked after scene processing', { publishedAnime });
   }
 };
 
 export const processScenes = async (updatingRequests: SceneRecognisedNotification): Promise<void> => {
-  console.log('Processing scenes: ', updatingRequests);
+  logger.info('Processing scenes payload', { updatingRequests });
   const items = updatingRequests.items as SceneRecognisedNotificationItem[];
   const nonEmptyRequestItems = items.filter((x: SceneRecognisedNotificationItem) => !!x.scenes);
   if (!nonEmptyRequestItems.length) {
-    console.log('No scenes to process, skipping');
+    logger.info('No scene payload items to process');
     return;
   }
 
   const requestItemsWithNonEmptyScenes = nonEmptyRequestItems
     .filter((x: SceneRecognisedNotificationItem) => Object.values(x.scenes!).filter(x => !!x).length > 0);
   if (!requestItemsWithNonEmptyScenes.length) {
-    console.log('No non-empty scenes to process, skipping');
+    logger.info('No non-empty scenes found in payload');
     return;
   }
 
@@ -77,14 +80,14 @@ export const processScenes = async (updatingRequests: SceneRecognisedNotificatio
     },
     {},
   );
-  console.log('Grouped requests: ', groupedRequestsItems);
+  logger.info('Grouped scene requests by anime', { groupedRequestsItems });
 
   for (const key of Object.keys(groupedRequestsItems)) {
-    console.log('Processing key: ', key);
-    const items = groupedRequestsItems[key];
-    await processAnime(items);
-    console.log('Key processed: ', key);
+    logger.info('Processing grouped scene requests', { key });
+    const groupedItems = groupedRequestsItems[key];
+    await processAnime(groupedItems);
+    logger.info('Grouped scene requests processed', { key });
   }
 
-  console.log('Scenes processed');
+  logger.info('Scenes payload processed');
 }
