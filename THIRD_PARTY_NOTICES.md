@@ -107,7 +107,7 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/types
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages/util-dynamodb
 
-## @aws-sdk/util-locate-window 3.965.5
+## @aws-sdk/util-locate-window 3.965.8
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/util-locate-window
 
