@@ -2,19 +2,10 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    projects: [{
-      test: {
-        name: 'unit-tests',
-        include: ['**/*.spec.ts'],
-      },
-    }, {
-      test: {
-        name: 'integration-tests',
-        include: ['**/*.integration.test.ts'],
-      },
-    }],
+    projects: ['packages/*'],
     globals: true,
     reporters: ['default'],
+    passWithNoTests: true,
     coverage: {
       enabled: true,
       provider: 'v8',
@@ -25,7 +16,7 @@ export default defineConfig({
         branches: 85,
         statements: 85,
       },
-      include: ['packages/app'],
+      include: ['packages/app/src/**/*.ts'],
       exclude: ['packages/app/src/local-runner.ts'],
     },
   },

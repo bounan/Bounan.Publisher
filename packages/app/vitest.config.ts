@@ -1,0 +1,9 @@
+import { defineProject } from 'vitest/config';
+
+export default defineProject({
+  test: {
+    name: 'app',
+    include: ['src/**/*.spec.ts'],
+    passWithNoTests: true,
+  },
+});

@@ -10,6 +10,9 @@
     },
     "packages/infra": {
       "entry": "src/app.ts"
+    },
+    "packages/integration-tests": {
+      "entry": "tests/**/*.test.ts"
     }
   }
 }
