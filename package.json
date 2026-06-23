@@ -17,7 +17,7 @@
     "cdk:diff": "pnpm -r --filter infra cdk:diff",
     "cdk:deploy": "pnpm -r --filter infra cdk:deploy",
     "all-commited": "git diff --exit-code && git diff --cached --exit-code",
-    "prerelease": "npm-run-all --parallel typecheck lint test test:integration knip && pnpm run -w all-commited && echo 'All checks passed!'",
+    "prerelease": "npm-run-all2 --parallel typecheck lint test test:integration knip && pnpm run -w all-commited && echo 'All checks passed!'",
     "test:app": "vitest run --coverage --project app",
     "test:integration": "vitest run --coverage.enabled=false packages/integration-tests/tests"
   },
@@ -42,7 +42,7 @@
     "eslint-plugin-simple-import-sort": "catalog:",
     "jiti": "catalog:",
     "knip": "catalog:",
-    "npm-run-all": "catalog:",
+    "npm-run-all2": "catalog:",
     "typescript-eslint": "catalog:",
     "vitest": "catalog:"
   }
