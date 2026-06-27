@@ -23,15 +23,15 @@ https://github.com/aws/aws-sdk-js-crypto-helpers/tree/master/packages/supports-w
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-crypto-helpers/tree/master/packages/util
 
-## @aws-sdk/client-dynamodb 3.1073.0
+## @aws-sdk/client-dynamodb 3.1075.0
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-dynamodb
 
-## @aws-sdk/client-lambda 3.1073.0
+## @aws-sdk/client-lambda 3.1075.0
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-lambda
 
-## @aws-sdk/client-ssm 3.1073.0
+## @aws-sdk/client-ssm 3.1075.0
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/clients/client-ssm
 
@@ -79,7 +79,7 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/dynamodb-codec
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/endpoint-cache
 
-## @aws-sdk/lib-dynamodb 3.1073.0
+## @aws-sdk/lib-dynamodb 3.1075.0
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/lib/lib-dynamodb
 
