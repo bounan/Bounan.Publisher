@@ -1,7 +1,7 @@
-﻿import * as cdk from 'aws-cdk-lib';
-import * as ssm from 'aws-cdk-lib/aws-ssm';
+import type * as cdk from 'aws-cdk-lib';
 
 import { ExportNames } from '../../../third-party/common/ts/cdk/export-names';
+import { getCfnValue, getSsmValue } from '../../../third-party/common/ts/cdk/helpers';
 import configFile from './configuration.json';
 
 export interface Config {
@@ -16,25 +16,17 @@ export interface Config {
   retriesDelayMs: string;
 }
 
-const getCfnValue = (key: keyof Config, prefix: string, exportSuffix: ExportNames): string => {
-  return configFile[key] || cdk.Fn.importValue(prefix + exportSuffix);
-}
-
-const getSsmValue = (stack: cdk.Stack, prefix: string, parameterSuffix: keyof Config): string => {
-  return configFile[parameterSuffix] || ssm.StringParameter.valueForStringParameter(stack, prefix + parameterSuffix);
-}
-
 export const getConfig = (stack: cdk.Stack, cfnPrefix: string, ssmPrefix: string): Config => ({
-  alertEmail: getCfnValue('alertEmail', cfnPrefix, ExportNames.AlertEmail),
+  alertEmail: getCfnValue('alertEmail', cfnPrefix, ExportNames.AlertEmail, configFile),
 
-  telegramToken: getSsmValue(stack, ssmPrefix, 'telegramToken'),
-  telegramSourceChannelId: getSsmValue(stack, ssmPrefix, 'telegramSourceChannelId'),
-  telegramTargetGroupId: getSsmValue(stack, ssmPrefix, 'telegramTargetGroupId'),
+  telegramToken: getSsmValue(stack, ssmPrefix, 'telegramToken', configFile),
+  telegramSourceChannelId: getSsmValue(stack, ssmPrefix, 'telegramSourceChannelId', configFile),
+  telegramTargetGroupId: getSsmValue(stack, ssmPrefix, 'telegramTargetGroupId', configFile),
 
-  updatePublishingDetailsFunctionName: getCfnValue('updatePublishingDetailsFunctionName', cfnPrefix, ExportNames.UpdatePublishingDetailsFunctionName),
-  videoDownloadedTopicArn: getCfnValue('videoDownloadedTopicArn', cfnPrefix, ExportNames.VideoDownloadedSnsTopicArn),
-  sceneRecognisedTopicArn: getCfnValue('sceneRecognisedTopicArn', cfnPrefix, ExportNames.SceneRecognisedSnsTopicArn),
+  updatePublishingDetailsFunctionName: getCfnValue('updatePublishingDetailsFunctionName', cfnPrefix, ExportNames.UpdatePublishingDetailsFunctionName, configFile),
+  videoDownloadedTopicArn: getCfnValue('videoDownloadedTopicArn', cfnPrefix, ExportNames.VideoDownloadedSnsTopicArn, configFile),
+  sceneRecognisedTopicArn: getCfnValue('sceneRecognisedTopicArn', cfnPrefix, ExportNames.SceneRecognisedSnsTopicArn, configFile),
 
-  retriesMax: getSsmValue(stack, ssmPrefix, 'retriesMax'),
-  retriesDelayMs: getSsmValue(stack, ssmPrefix, 'retriesDelayMs'),
+  retriesMax: getSsmValue(stack, ssmPrefix, 'retriesMax', configFile),
+  retriesDelayMs: getSsmValue(stack, ssmPrefix, 'retriesDelayMs', configFile),
 });
