@@ -83,7 +83,11 @@ const sendSingleEpisodeInternal = async (
   };
 }
 
-export const publishAnime = async (animeInfo: ShikiAnimeInfo, dub: string): Promise<PublishingResult> => {
+export const publishAnime = async (
+  animeInfo: ShikiAnimeInfo,
+  dub: string,
+  posterUrl: string,
+): Promise<PublishingResult> => {
   const createdTopic = await createForumTopic({
     chat_id: config.value.telegram.targetGroupId,
     name: createTextForTopicName(animeInfo, dub),
@@ -98,7 +102,7 @@ export const publishAnime = async (animeInfo: ShikiAnimeInfo, dub: string): Prom
   const firstPostText = createTextForHeaderPost(animeInfo, dub).substring(0, 1024);
   const firstPost = await sendPhoto({
     chat_id: config.value.telegram.targetGroupId,
-    photo: animeInfo.poster!.originalUrl,
+    photo: posterUrl,
     caption: firstPostText,
     message_thread_id: threadId,
     parse_mode: 'HTML',

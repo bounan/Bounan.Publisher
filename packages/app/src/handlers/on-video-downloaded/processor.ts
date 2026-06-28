@@ -2,6 +2,7 @@ import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 
 import type { VideoDownloadedNotification } from '../../../../../third-party/common/ts/interfaces';
 import { updatePublishingDetails } from '../../api-clients/animan/animan-client';
+import { getJikanAnimePoster } from '../../api-clients/jikan/jikan-client';
 import type { ShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
 import { getShikiAnimeInfo } from '../../api-clients/shikimori/shikimori-client';
 import { publishAnime, publishEpisode } from '../../api-clients/telegram/telegram-service';
@@ -21,7 +22,12 @@ const createTopic = async (
 ): Promise<Pick<PublishedAnimeEntity, 'threadId' | 'episodes'>> => {
   logger.info('Creating new topic for anime', { animeKey });
 
-  const headerPublishingResult = await publishAnime(shikiAnimeInfo, animeKey.dub);
+  const posterUrl = shikiAnimeInfo.poster?.originalUrl ?? await getJikanAnimePoster(animeKey.myAnimeListId);
+  if (!posterUrl) {
+    throw new Error('Anime poster not found');
+  }
+
+  const headerPublishingResult = await publishAnime(shikiAnimeInfo, animeKey.dub, posterUrl);
   logger.info('Anime header published', { animeKey, headerPublishingResult });
 
   await setHeader(animeKey, headerPublishingResult.threadId, headerPublishingResult.headerMessageInfo);
