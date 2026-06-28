@@ -119,6 +119,10 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/xml-builder
 License: Apache-2.0
 https://github.com/awslabs/aws-lambda-invoke-store
 
+## @lightweight-clients/jikan-api-lightweight-client 4.0.2
+License: MIT
+https://github.com/lightweight-clients/jikan-api-lightweight-client
+
 ## @lightweight-clients/shikimori-graphql-api-lightweight-client 1.2.0
 License: MIT
 https://github.com/lightweight-clients/shikimori-graphql-api-lightweight-client
