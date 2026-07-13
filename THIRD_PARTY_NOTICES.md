@@ -55,7 +55,7 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/credential-prov
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/dynamodb-codec
 
-## @aws-sdk/endpoint-cache 3.972.8
+## @aws-sdk/endpoint-cache 3.972.9
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/endpoint-cache
 
@@ -63,7 +63,7 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/endpoint-cache
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/lib/lib-dynamodb
 
-## @aws-sdk/middleware-endpoint-discovery 3.972.22
+## @aws-sdk/middleware-endpoint-discovery 3.972.23
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/middleware-endpoint-discovery
 
@@ -79,11 +79,11 @@ https://github.com/aws/aws-sdk-js-v3/tree/main/packages/signature-v4-multi-regio
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages/token-providers
 
-## @aws-sdk/types 3.973.15, 3.974.0
+## @aws-sdk/types 3.974.0
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages-internal/types
 
-## @aws-sdk/util-dynamodb 3.996.5
+## @aws-sdk/util-dynamodb 3.996.6
 License: Apache-2.0
 https://github.com/aws/aws-sdk-js-v3/tree/main/packages/util-dynamodb
 
@@ -107,27 +107,27 @@ https://github.com/lightweight-clients/shikimori-graphql-api-lightweight-client
 License: MIT
 https://github.com/lightweight-clients/telegram-bot-api-lightweight-client
 
-## @smithy/core 3.29.1, 3.29.2
+## @smithy/core 3.29.3
 License: Apache-2.0
 https://github.com/smithy-lang/smithy-typescript/tree/main/packages/core
 
-## @smithy/credential-provider-imds 4.4.7
+## @smithy/credential-provider-imds 4.4.8
 License: Apache-2.0
 https://github.com/smithy-lang/smithy-typescript/tree/main/packages/credential-provider-imds
 
-## @smithy/fetch-http-handler 5.6.3, 5.6.4
+## @smithy/fetch-http-handler 5.6.5
 License: Apache-2.0
 https://github.com/smithy-lang/smithy-typescript/tree/main/packages/fetch-http-handler
 
-## @smithy/node-http-handler 4.9.3, 4.9.4
+## @smithy/node-http-handler 4.9.5
 License: Apache-2.0
 https://github.com/smithy-lang/smithy-typescript/tree/main/packages/node-http-handler
 
-## @smithy/signature-v4 5.6.3
+## @smithy/signature-v4 5.6.4
 License: Apache-2.0
 https://github.com/smithy-lang/smithy-typescript/tree/main/packages/signature-v4
 
-## @smithy/types 4.15.1, 4.16.0
+## @smithy/types 4.16.1
 License: Apache-2.0
 https://github.com/smithy-lang/smithy-typescript/tree/main/packages/types
 
