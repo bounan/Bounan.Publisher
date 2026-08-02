@@ -14,7 +14,7 @@ export const createTextForHeaderPost = (animeInfo: ShikiAnimeInfo, dub: string):
   const genres = animeInfo.genres
     ?.map((genre) => genre.russian)
     .filter((genre) => genre)
-    .map((genre) => `#${genre!.replace(/ /g, '_')}`)
+    .map((genre) => `#${genre?.replace(/ /g, '_')}`)
     .sort()
     .join(' ');
 
@@ -24,7 +24,7 @@ export const createTextForHeaderPost = (animeInfo: ShikiAnimeInfo, dub: string):
   });
   const otherNames = Array.from(allNamesSet)
     .filter((name) => !!name)
-    .map((name) => name!.replaceAll('>', '&gt;').replaceAll('<', '&lt;'))
+    .map((name) => name?.replaceAll('>', '&gt;').replaceAll('<', '&lt;'))
     .join('; ');
 
   const hashtag = animeInfo.url?.replace(/^[^-]+-/, '').replaceAll('-', '_');

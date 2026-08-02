@@ -68,15 +68,15 @@ export const processScenes = async (updatingRequests: SceneRecognisedNotificatio
     return;
   }
 
-  const requestItemsWithNonEmptyScenes = nonEmptyRequestItems.filter(
-    (x: SceneRecognisedNotificationItem) => Object.values(x.scenes!).filter((x) => !!x).length > 0,
+  const requestItemsWithNonEmptyScenes = nonEmptyRequestItems.filter((x: SceneRecognisedNotificationItem) =>
+    Object.values(x.scenes ?? {}).some(Boolean),
   );
   if (!requestItemsWithNonEmptyScenes.length) {
     logger.info('No non-empty scenes found in payload');
     return;
   }
 
-  const groupedRequestsItems = nonEmptyRequestItems.reduce(
+  const groupedRequestsItems = requestItemsWithNonEmptyScenes.reduce(
     (acc: Record<string, SceneRecognisedNotificationItem[]>, item: SceneRecognisedNotificationItem) => {
       const key = `${item.videoKey.myAnimeListId}_${item.videoKey.dub}`;
       acc[key] = acc[key] || [];

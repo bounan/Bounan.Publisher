@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   SceneRecognisedNotification,
   VideoDownloadedNotification,
 } from '../../../third-party/common/ts/interfaces';
@@ -14,7 +14,7 @@ const ep = async (message: VideoDownloadedNotification) => {
   await videoHandler(
     // @ts-expect-error
     { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
-    null as any,
+    null as unknown as import('aws-lambda').Context,
   );
 
   logger.info('Video-downloaded message processed');
@@ -26,7 +26,7 @@ const sc = async (message: SceneRecognisedNotification) => {
   await scenesHandler(
     // @ts-expect-error
     { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
-    null as any,
+    null as unknown as import('aws-lambda').Context,
   );
 
   logger.info('Scene-recognised message processed');
