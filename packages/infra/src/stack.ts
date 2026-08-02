@@ -26,7 +26,10 @@ export class Stack extends cfn.Stack {
     const config = getConfig(this, 'bounan:', '/bounan/publisher/deploy-config/');
 
     const updatePublishingDetailsLambda = lambda.Function.fromFunctionName(
-      this, 'UpdatePublishingDetailsLambda', config.updatePublishingDetailsFunctionName);
+      this,
+      'UpdatePublishingDetailsLambda',
+      config.updatePublishingDetailsFunctionName,
+    );
 
     const table = this.createDatabase();
     const errorsLogGroup = this.createLogGroup();
@@ -41,10 +44,12 @@ export class Stack extends cfn.Stack {
 
     const scheduleLambda = lambdas[LambdaHandler.OnScheduleDaily];
     calendarStateParameter.grantRead(scheduleLambda);
-    scheduleLambda.addToRolePolicy(new iam.PolicyStatement({
-      actions: ['ssm:PutParameter'],
-      resources: [calendarStateParameter.parameterArn],
-    }));
+    scheduleLambda.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ['ssm:PutParameter'],
+        resources: [calendarStateParameter.parameterArn],
+      }),
+    );
 
     const dailyRule = new events.Rule(this, 'DailyScheduleRule', {
       schedule: events.Schedule.cron({ hour: '9', minute: '0' }),

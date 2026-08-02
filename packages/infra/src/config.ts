@@ -23,9 +23,24 @@ export const getConfig = (stack: cdk.Stack, cfnPrefix: string, ssmPrefix: string
   telegramSourceChannelId: getSsmValue(stack, ssmPrefix, 'telegramSourceChannelId', configFile),
   telegramTargetGroupId: getSsmValue(stack, ssmPrefix, 'telegramTargetGroupId', configFile),
 
-  updatePublishingDetailsFunctionName: getCfnValue('updatePublishingDetailsFunctionName', cfnPrefix, ExportNames.UpdatePublishingDetailsFunctionName, configFile),
-  videoDownloadedTopicArn: getCfnValue('videoDownloadedTopicArn', cfnPrefix, ExportNames.VideoDownloadedSnsTopicArn, configFile),
-  sceneRecognisedTopicArn: getCfnValue('sceneRecognisedTopicArn', cfnPrefix, ExportNames.SceneRecognisedSnsTopicArn, configFile),
+  updatePublishingDetailsFunctionName: getCfnValue(
+    'updatePublishingDetailsFunctionName',
+    cfnPrefix,
+    ExportNames.UpdatePublishingDetailsFunctionName,
+    configFile,
+  ),
+  videoDownloadedTopicArn: getCfnValue(
+    'videoDownloadedTopicArn',
+    cfnPrefix,
+    ExportNames.VideoDownloadedSnsTopicArn,
+    configFile,
+  ),
+  sceneRecognisedTopicArn: getCfnValue(
+    'sceneRecognisedTopicArn',
+    cfnPrefix,
+    ExportNames.SceneRecognisedSnsTopicArn,
+    configFile,
+  ),
 
   retriesMax: getSsmValue(stack, ssmPrefix, 'retriesMax', configFile),
   retriesDelayMs: getSsmValue(stack, ssmPrefix, 'retriesDelayMs', configFile),

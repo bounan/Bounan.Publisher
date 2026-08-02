@@ -16,8 +16,7 @@ const processMessage = async (message: string): Promise<void> => {
   logger.info('Scene-recognised message processed');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handler = async (event: SNSEvent, context: Context): Promise<void> => {
+export const handler = async (event: SNSEvent, _context: Context): Promise<void> => {
   logger.info('Processing scene-recognised event', { recordCount: event.Records.length });
 
   await initConfig();

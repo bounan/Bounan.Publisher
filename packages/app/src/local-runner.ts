@@ -1,7 +1,4 @@
-﻿/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import type {
+﻿import type {
   SceneRecognisedNotification,
   VideoDownloadedNotification,
 } from '../../../third-party/common/ts/interfaces';
@@ -15,23 +12,25 @@ const ep = async (message: VideoDownloadedNotification) => {
   logger.info('Processing video-downloaded message', { message });
 
   await videoHandler(
-    // @ts-ignore
+    // @ts-expect-error
     { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
-    null as any);
+    null as any,
+  );
 
   logger.info('Video-downloaded message processed');
-}
+};
 
 const sc = async (message: SceneRecognisedNotification) => {
   logger.info('Processing scene-recognised message', { message });
 
   await scenesHandler(
-    // @ts-ignore
+    // @ts-expect-error
     { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
-    null as any);
+    null as any,
+  );
 
   logger.info('Scene-recognised message processed');
-}
+};
 
 const main = async () => {
   const myAnimeListId = 1;
@@ -127,6 +126,6 @@ const main = async () => {
       },
     ],
   });
-}
+};
 
 main();

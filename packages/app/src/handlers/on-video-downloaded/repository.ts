@@ -27,4 +27,4 @@ export const setHeader = async (
 
   const result = await docClient.send(command);
   logger.info('Header and thread saved', { anime, threadId, result });
-}
+};

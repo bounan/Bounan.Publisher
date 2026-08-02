@@ -13,18 +13,18 @@ export const getCalendarState = async (): Promise<CalendarState> => {
   const query = new GetParameterCommand({ Name: config.value.database.calendarStateParameterName });
   const response = await ssmClient.send(query);
   const value = response.Parameter?.Value;
-  if (!value)
-    throw new Error('Calendar state parameter not found');
+  if (!value) throw new Error('Calendar state parameter not found');
 
   return JSON.parse(value) as CalendarState;
 };
 
 export const saveCalendarState = async (state: CalendarState): Promise<void> => {
-  await ssmClient.send(new PutParameterCommand({
-    Name: config.value.database.calendarStateParameterName,
-    Value: JSON.stringify(state),
-    Type: 'String',
-    Overwrite: true,
-  }));
+  await ssmClient.send(
+    new PutParameterCommand({
+      Name: config.value.database.calendarStateParameterName,
+      Value: JSON.stringify(state),
+      Type: 'String',
+      Overwrite: true,
+    }),
+  );
 };
-

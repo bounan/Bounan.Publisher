@@ -14,19 +14,21 @@ import { getCalendarState, saveCalendarState } from './calendar-state-repository
 const TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
 const logger = createLogger('app/handlers/on-schedule-daily/processor');
 
-const fetchOngoingAnimes = async (animes: PublishedAnimeEntity[]): Promise<{
+const fetchOngoingAnimes = async (
+  animes: PublishedAnimeEntity[],
+): Promise<{
   ongoingAnimes: PublishedAnimeEntity[];
   animeNames: Record<number, string>;
 }> => {
-  const uniqueIds = [...new Set(animes.map(a => a.myAnimeListId))];
+  const uniqueIds = [...new Set(animes.map((a) => a.myAnimeListId))];
   const shikiInfos = await getShikiAnimeInfos(uniqueIds);
 
   const isOngoing = (info: ShikiAnimeInfo) => info.status === 'ongoing';
-  const ongoingIds = new Set(shikiInfos.filter(isOngoing).map(info => Number(info.id)));
+  const ongoingIds = new Set(shikiInfos.filter(isOngoing).map((info) => Number(info.id)));
 
   return {
-    ongoingAnimes: animes.filter(a => ongoingIds.has(a.myAnimeListId)),
-    animeNames: Object.fromEntries(shikiInfos.map(info => [Number(info.id), info.russian ?? info.name])),
+    ongoingAnimes: animes.filter((a) => ongoingIds.has(a.myAnimeListId)),
+    animeNames: Object.fromEntries(shikiInfos.map((info) => [Number(info.id), info.russian ?? info.name])),
   };
 };
 
@@ -89,6 +91,3 @@ export const updateCalendar = async (): Promise<void> => {
   await updateOrPostCalendar(state, text, hash);
   logger.info('Calendar updated', { entryCount: entries.length });
 };
-
-
-

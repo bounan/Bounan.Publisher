@@ -7,7 +7,6 @@ import { updateCalendar } from './processor';
 
 const logger = createLogger('app/handlers/on-schedule-daily/handler');
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const handler = async (_event: ScheduledEvent, _context: Context): Promise<void> => {
   logger.info('Processing scheduled calendar event');
 

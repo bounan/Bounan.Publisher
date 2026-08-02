@@ -12,31 +12,35 @@ export const docClient = DynamoDBDocumentClient.from(dynamoDbClient);
 
 export const getTableKey = (animeKey: AnimeKey): string => {
   return `${animeKey.myAnimeListId}#${animeKey.dub}`;
-}
+};
 
 const lock = async (key: AnimeKey): Promise<void> => {
-  await docClient.send(new UpdateCommand({
-    TableName: config.value.database.tableName,
-    Key: { AnimeKey: getTableKey(key) },
-    ConditionExpression: 'attribute_exists(AnimeKey) AND attribute_not_exists(Locked)',
-    UpdateExpression: 'SET Locked = :locked',
-    ExpressionAttributeValues: {
-      ':locked': true,
-    },
-  }));
-}
+  await docClient.send(
+    new UpdateCommand({
+      TableName: config.value.database.tableName,
+      Key: { AnimeKey: getTableKey(key) },
+      ConditionExpression: 'attribute_exists(AnimeKey) AND attribute_not_exists(Locked)',
+      UpdateExpression: 'SET Locked = :locked',
+      ExpressionAttributeValues: {
+        ':locked': true,
+      },
+    }),
+  );
+};
 
 export const unlock = async (key: AnimeKey): Promise<void> => {
-  await docClient.send(new UpdateCommand({
-    TableName: config.value.database.tableName,
-    Key: { AnimeKey: getTableKey(key) },
-    ConditionExpression: 'attribute_exists(AnimeKey) AND Locked = :locked',
-    UpdateExpression: 'REMOVE Locked',
-    ExpressionAttributeValues: {
-      ':locked': true,
-    },
-  }));
-}
+  await docClient.send(
+    new UpdateCommand({
+      TableName: config.value.database.tableName,
+      Key: { AnimeKey: getTableKey(key) },
+      ConditionExpression: 'attribute_exists(AnimeKey) AND Locked = :locked',
+      UpdateExpression: 'REMOVE Locked',
+      ExpressionAttributeValues: {
+        ':locked': true,
+      },
+    }),
+  );
+};
 
 export const getOrRegisterAnimeAndLock = async (
   key: AnimeKey,
@@ -62,18 +66,20 @@ export const getOrRegisterAnimeAndLock = async (
     updatedAt: new Date().toISOString(),
   };
 
-  await docClient.send(new PutCommand({
-    TableName: config.value.database.tableName,
-    Item: {
-      ...anime,
-      AnimeKey: getTableKey(key),
-      Locked: true,
-    },
-    ConditionExpression: 'attribute_not_exists(AnimeKey)',
-  }));
+  await docClient.send(
+    new PutCommand({
+      TableName: config.value.database.tableName,
+      Item: {
+        ...anime,
+        AnimeKey: getTableKey(key),
+        Locked: true,
+      },
+      ConditionExpression: 'attribute_not_exists(AnimeKey)',
+    }),
+  );
 
   return anime;
-}
+};
 
 export const upsertEpisodes = async (
   animeKey: AnimeKey,
@@ -98,21 +104,23 @@ export const upsertEpisodes = async (
   });
 
   await docClient.send(command);
-}
+};
 
 export const scanRecentlyPublished = async (since: Date): Promise<PublishedAnimeEntity[]> => {
   const items: PublishedAnimeEntity[] = [];
-  let lastKey: Record<string, unknown> | undefined = undefined;
+  let lastKey: Record<string, unknown> | undefined;
 
   do {
-    const response = await docClient.send(new ScanCommand({
-      TableName: config.value.database.tableName,
-      FilterExpression: 'attribute_exists(threadId) AND updatedAt >= :since',
-      ExpressionAttributeValues: { ':since': since.toISOString() },
-      ExclusiveStartKey: lastKey,
-    }));
+    const response = await docClient.send(
+      new ScanCommand({
+        TableName: config.value.database.tableName,
+        FilterExpression: 'attribute_exists(threadId) AND updatedAt >= :since',
+        ExpressionAttributeValues: { ':since': since.toISOString() },
+        ExclusiveStartKey: lastKey,
+      }),
+    );
 
-    items.push(...(response.Items ?? []) as PublishedAnimeEntity[]);
+    items.push(...((response.Items ?? []) as PublishedAnimeEntity[]));
     lastKey = response.LastEvaluatedKey as Record<string, unknown> | undefined;
   } while (lastKey);
 

@@ -17,8 +17,7 @@ describe('Publisher database', () => {
       };
       await table.put(anime);
       await expect(table.getAll()).resolves.toEqual([anime]);
-    }
-    finally {
+    } finally {
       await table.drop();
     }
   });

@@ -27,14 +27,14 @@ const reorderEpisodes = async (
   logger.info('Reordering episodes', { threadId, episode, publishedEpisodes });
 
   const episodesToForward = Object.values(publishedEpisodes)
-    .filter(x => x.episode > episode)
+    .filter((x) => x.episode > episode)
     .sort((a, b) => a.episode - b.episode);
   logger.info('Episodes selected for forwarding', { threadId, episode, episodesToForward });
   if (episodesToForward.length === 0) {
     return [];
   }
 
-  const messagesToForward = episodesToForward.map(x => x.messageId);
+  const messagesToForward = episodesToForward.map((x) => x.messageId);
   const forwardedMessages = await copyMessages({
     chat_id: config.value.telegram.targetGroupId,
     from_chat_id: config.value.telegram.targetGroupId,
@@ -55,7 +55,7 @@ const reorderEpisodes = async (
     messageId: forwardedMessages.result[index].message_id,
     hash: episode.hash,
   }));
-}
+};
 
 const sendSingleEpisodeInternal = async (
   publishingRequest: Required<VideoDownloadedNotification>,
@@ -81,7 +81,7 @@ const sendSingleEpisodeInternal = async (
     messageId: episodeMessage.result.message_id,
     hash: hashCode(caption),
   };
-}
+};
 
 export const publishAnime = async (
   animeInfo: ShikiAnimeInfo,
@@ -117,8 +117,8 @@ export const publishAnime = async (
       messageId: firstPost.result.message_id,
       hash: hashCode(firstPostText),
     },
-  }
-}
+  };
+};
 
 export const publishEpisode = async (
   publishingRequest: Required<VideoDownloadedNotification>,
@@ -129,11 +129,8 @@ export const publishEpisode = async (
   const episodeMessageInfo = await sendSingleEpisodeInternal(publishingRequest, animeInfo, threadId);
   const forwardedMessages = await reorderEpisodes(threadId, publishedEpisodes, publishingRequest.videoKey.episode);
 
-  return [
-    episodeMessageInfo,
-    ...forwardedMessages,
-  ];
-}
+  return [episodeMessageInfo, ...forwardedMessages];
+};
 
 export const updateEpisodeMessages = async (
   publishedAnime: PublishedAnimeEntity,
@@ -146,7 +143,7 @@ export const updateEpisodeMessages = async (
 
   for (const captionToUpdate of captionsToUpdate) {
     if (captionsToUpdate.length > 20) {
-      await new Promise(resolve => setTimeout(resolve, 1000 / 29));
+      await new Promise((resolve) => setTimeout(resolve, 1000 / 29));
     }
 
     logger.info('Updating episode caption', { captionToUpdate });
@@ -165,4 +162,4 @@ export const updateEpisodeMessages = async (
   }
 
   logger.info('Episode captions updated', { updatedCount: captionsToUpdate.length });
-}
+};

@@ -17,8 +17,7 @@ const processMessage = async (message: string): Promise<void> => {
   logger.info('Video-downloaded message processed');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handler = async (event: SNSEvent, context: Context): Promise<void> => {
+export const handler = async (event: SNSEvent, _context: Context): Promise<void> => {
   logger.info('Processing video-downloaded event', { recordCount: event.Records.length });
 
   await initConfig();

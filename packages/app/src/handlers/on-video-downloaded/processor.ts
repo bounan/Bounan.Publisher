@@ -22,7 +22,7 @@ const createTopic = async (
 ): Promise<Pick<PublishedAnimeEntity, 'threadId' | 'episodes'>> => {
   logger.info('Creating new topic for anime', { animeKey });
 
-  const posterUrl = shikiAnimeInfo.poster?.originalUrl ?? await getJikanAnimePoster(animeKey.myAnimeListId);
+  const posterUrl = shikiAnimeInfo.poster?.originalUrl ?? (await getJikanAnimePoster(animeKey.myAnimeListId));
   if (!posterUrl) {
     throw new Error('Anime poster not found');
   }
@@ -35,18 +35,18 @@ const createTopic = async (
     threadId: headerPublishingResult.threadId,
     episodes: {},
   };
-}
+};
 
 const addEpisode = async (
   publishingRequest: Required<VideoDownloadedNotification>,
   animeInfo: ShikiAnimeInfo,
   threadId: number,
   publishedEpisodes: PublishedAnimeEntity['episodes'],
-): Promise<{ episode: number; messageId: number; }[]> => {
+): Promise<{ episode: number; messageId: number }[]> => {
   const messageInfos = await publishEpisode(publishingRequest, animeInfo, threadId, publishedEpisodes);
   logger.info('Episode published', { videoKey: publishingRequest.videoKey, messageInfos });
 
-  const newEpisodes = Object.fromEntries(messageInfos.map(x => [x.episode, x]));
+  const newEpisodes = Object.fromEntries(messageInfos.map((x) => [x.episode, x]));
   await upsertEpisodes(publishingRequest.videoKey, publishedEpisodes, newEpisodes);
   logger.info('Published episodes persisted', { videoKey: publishingRequest.videoKey, newEpisodes });
 
@@ -58,8 +58,8 @@ const tryProcessNewEpisode = async (publishingRequest: Required<VideoDownloadedN
   logger.info('Anime retrieved for episode processing', { publishedAnime });
 
   try {
-    const episodeExists = 'episodes' in publishedAnime
-      && !!publishedAnime.episodes?.[publishingRequest.videoKey.episode];
+    const episodeExists =
+      'episodes' in publishedAnime && !!publishedAnime.episodes?.[publishingRequest.videoKey.episode];
     if (episodeExists) {
       logger.info('Episode already published, skipping', { videoKey: publishingRequest.videoKey });
       return;
@@ -68,9 +68,8 @@ const tryProcessNewEpisode = async (publishingRequest: Required<VideoDownloadedN
     const animeInfo = await getShikiAnimeInfo(publishedAnime.myAnimeListId);
     logger.info('Anime info retrieved for episode processing', { myAnimeListId: publishedAnime.myAnimeListId });
 
-    const { threadId, episodes } = 'threadId' in publishedAnime
-      ? publishedAnime
-      : await createTopic(animeInfo, publishedAnime);
+    const { threadId, episodes } =
+      'threadId' in publishedAnime ? publishedAnime : await createTopic(animeInfo, publishedAnime);
 
     logger.info('Publishing episode into topic', { videoKey: publishingRequest.videoKey, threadId });
     const messageIds = await addEpisode(publishingRequest, animeInfo, threadId, episodes);
@@ -115,7 +114,7 @@ export const processNewEpisode = async (publishingRequest: VideoDownloadedNotifi
 
       totalRetries++;
       const timeout = totalRetries * config.value.retries.delayMs + Math.random() * 1000;
-      await new Promise(resolve => setTimeout(resolve, timeout));
+      await new Promise((resolve) => setTimeout(resolve, timeout));
     }
   }
 

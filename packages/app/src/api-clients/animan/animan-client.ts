@@ -21,7 +21,7 @@ export const updatePublishingDetails = async (
     return;
   }
 
-  const items: PublisherResultRequestItem[] = messageIds.map(item => ({
+  const items: PublisherResultRequestItem[] = messageIds.map((item) => ({
     videoKey: {
       myAnimeListId: animeKey.myAnimeListId,
       dub: animeKey.dub,
@@ -37,9 +37,11 @@ export const updatePublishingDetails = async (
   const message = JSON.stringify(request);
   logger.info('Sending update publishing details request', { animeKey, threadId, itemCount: items.length });
 
-  const result = await lambdaClient.send(new InvokeCommand({
-    FunctionName: config.value.animan.updatePublishingDetailsFunctionName,
-    Payload: message,
-  }));
+  const result = await lambdaClient.send(
+    new InvokeCommand({
+      FunctionName: config.value.animan.updatePublishingDetailsFunctionName,
+      Payload: message,
+    }),
+  );
   logger.info('Update publishing details request sent', { animeKey, result });
-}
+};

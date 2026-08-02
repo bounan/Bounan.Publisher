@@ -1,9 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignore": [
-    "third-party/**",
-    "scripts/**"
-  ],
+  "ignore": ["third-party/**", "scripts/**"],
   "workspaces": {
     "packages/app": {
       "entry": "src/handlers/*/handler.ts"

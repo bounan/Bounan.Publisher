@@ -26,19 +26,21 @@ export const buildCalendarEntries = (
   animes: PublishedAnimeEntity[],
   animeNames: Record<number, string>,
 ): CalendarEntry[] => {
-  return animes.map(anime => {
-    const latestEpisode = Math.max(...Object.keys(anime.episodes).map(Number));
-    const updatedAt = new Date(anime.updatedAt);
-    const nextEpisodeDate = new Date(updatedAt.getTime() + MS_IN_WEEK);
+  return animes
+    .map((anime) => {
+      const latestEpisode = Math.max(...Object.keys(anime.episodes).map(Number));
+      const updatedAt = new Date(anime.updatedAt);
+      const nextEpisodeDate = new Date(updatedAt.getTime() + MS_IN_WEEK);
 
-    return {
-      title: animeNames[anime.myAnimeListId],
-      dub: anime.dub,
-      threadId: anime.threadId,
-      latestEpisode,
-      nextEpisodeDate,
-    };
-  }).sort((a, b) => a.nextEpisodeDate.getTime() - b.nextEpisodeDate.getTime());
+      return {
+        title: animeNames[anime.myAnimeListId],
+        dub: anime.dub,
+        threadId: anime.threadId,
+        latestEpisode,
+        nextEpisodeDate,
+      };
+    })
+    .sort((a, b) => a.nextEpisodeDate.getTime() - b.nextEpisodeDate.getTime());
 };
 
 export const createCalendarText = (entries: CalendarEntry[], targetGroupId: string): string => {
@@ -49,8 +51,9 @@ export const createCalendarText = (entries: CalendarEntry[], targetGroupId: stri
   }
 
   const groupedByDate: Record<string, CalendarEntry[][]> = groupBy(
-    Object.values(groupBy(entries, e => e.title)),
-    gr => formatDate(gr[0].nextEpisodeDate));
+    Object.values(groupBy(entries, (e) => e.title)),
+    (gr) => formatDate(gr[0].nextEpisodeDate),
+  );
 
   const chatId = targetGroupId.replace('-100', '');
 

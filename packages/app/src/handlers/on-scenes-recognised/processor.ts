@@ -25,14 +25,14 @@ const processAnime = async (notificationItems: SceneRecognisedNotificationItem[]
     const animeInfo = await getShikiAnimeInfo(publishedAnime.myAnimeListId);
     logger.info('Anime info retrieved for scene processing', { myAnimeListId: publishedAnime.myAnimeListId });
 
-    const newCaptions = notificationItems.map(item => ({
+    const newCaptions = notificationItems.map((item) => ({
       episode: item.videoKey.episode,
       caption: createTextForEpisodePost(animeInfo, item),
     }));
 
-    const captionsToUpdate = newCaptions
-      .filter(x => !!publishedAnime.episodes[x.episode]
-        && publishedAnime.episodes[x.episode].hash !== hashCode(x.caption));
+    const captionsToUpdate = newCaptions.filter(
+      (x) => !!publishedAnime.episodes[x.episode] && publishedAnime.episodes[x.episode].hash !== hashCode(x.caption),
+    );
     logger.info('Calculated captions to update', { count: captionsToUpdate.length, captionsToUpdate });
     if (!captionsToUpdate.length) {
       logger.info('No episode captions require updates');
@@ -42,11 +42,15 @@ const processAnime = async (notificationItems: SceneRecognisedNotificationItem[]
     await updateEpisodeMessages(publishedAnime, captionsToUpdate);
     logger.info('Episode captions updated');
 
-    const updatedEpisodes: { [episode: number]: EpisodeMessageInfoEntity } = Object.fromEntries(captionsToUpdate
-      .map(x => [x.episode, {
-        ...publishedAnime.episodes[x.episode],
-        hash: hashCode(x.caption),
-      }]));
+    const updatedEpisodes: { [episode: number]: EpisodeMessageInfoEntity } = Object.fromEntries(
+      captionsToUpdate.map((x) => [
+        x.episode,
+        {
+          ...publishedAnime.episodes[x.episode],
+          hash: hashCode(x.caption),
+        },
+      ]),
+    );
     await upsertEpisodes(publishedAnime, publishedAnime.episodes, updatedEpisodes);
     logger.info('Updated episode hashes persisted', { updatedEpisodes });
   } finally {
@@ -64,8 +68,9 @@ export const processScenes = async (updatingRequests: SceneRecognisedNotificatio
     return;
   }
 
-  const requestItemsWithNonEmptyScenes = nonEmptyRequestItems
-    .filter((x: SceneRecognisedNotificationItem) => Object.values(x.scenes!).filter(x => !!x).length > 0);
+  const requestItemsWithNonEmptyScenes = nonEmptyRequestItems.filter(
+    (x: SceneRecognisedNotificationItem) => Object.values(x.scenes!).filter((x) => !!x).length > 0,
+  );
   if (!requestItemsWithNonEmptyScenes.length) {
     logger.info('No non-empty scenes found in payload');
     return;
@@ -90,4 +95,4 @@ export const processScenes = async (updatingRequests: SceneRecognisedNotificatio
   }
 
   logger.info('Scenes payload processed');
-}
+};
